@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Muhammad Eshaan — Web Developer & AI Enthusiast</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #090c14;
+    --panel: #10152420;
+    --panel-solid: #121729;
+    --line: #232a42;
+    --text: #e9edf7;
+    --muted: #8791ab;
+    --teal: #00e5c7;
+    --violet: #8b6bff;
+    --amber: #ffb454;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Space Grotesk',sans-serif;
+    overflow-x:hidden;
+    position:relative;
+  }
+  ::selection{background:var(--teal);color:#04120f;}
+
+  /* cursor glow */
+  #glow{
+    position:fixed;top:0;left:0;width:520px;height:520px;
+    background:radial-gradient(circle, rgba(0,229,199,0.10) 0%, rgba(139,107,255,0.06) 40%, transparent 70%);
+    border-radius:50%;pointer-events:none;z-index:0;
+    transform:translate(-50%,-50%);
+    transition:opacity .3s;
+  }
+
+  .wrap{max-width:1100px;margin:0 auto;padding:0 28px;position:relative;z-index:2;}
+
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    backdrop-filter:blur(14px);
+    background:rgba(9,12,20,0.7);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:68px;}
+  .logo{font-weight:700;font-size:1.05rem;letter-spacing:.5px;}
+  .logo span{color:var(--teal);}
+  nav ul{list-style:none;display:flex;gap:32px;}
+  nav a{color:var(--muted);text-decoration:none;font-size:.92rem;transition:color .25s;}
+  nav a:hover{color:var(--text);}
+
+  /* HERO */
+  header{
+    min-height:100vh;
+    display:flex;align-items:center;
+    position:relative;
+    padding-top:68px;
+  }
+  .hero-grid{
+    display:grid;grid-template-columns:1.15fr .85fr;gap:50px;align-items:center;
+    width:100%;
+  }
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:.82rem;color:var(--teal);
+    margin-bottom:22px;
+    opacity:0;animation:rise .7s ease forwards .1s;
+  }
+  .eyebrow::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--teal);box-shadow:0 0 12px var(--teal);animation:pulse 1.8s infinite;}
+  h1{
+    font-size:clamp(2.4rem,5.2vw,4.2rem);
+    line-height:1.05;font-weight:700;letter-spacing:-1px;
+    margin-bottom:20px;
+    opacity:0;animation:rise .8s ease forwards .25s;
+  }
+  h1 .grad{
+    background:linear-gradient(100deg,var(--teal),var(--violet) 60%,var(--amber));
+    background-size:200% auto;
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    animation:sheen 5s linear infinite;
+  }
+  .lede{
+    color:var(--muted);font-size:1.08rem;max-width:520px;line-height:1.7;margin-bottom:34px;
+    opacity:0;animation:rise .8s ease forwards .4s;
+  }
+  .cta-row{display:flex;gap:16px;flex-wrap:wrap;opacity:0;animation:rise .8s ease forwards .55s;}
+  .btn{
+    padding:13px 26px;border-radius:8px;font-weight:600;font-size:.95rem;
+    text-decoration:none;display:inline-flex;align-items:center;gap:8px;
+    transition:transform .25s, box-shadow .25s;
+  }
+  .btn-solid{background:var(--teal);color:#04120f;}
+  .btn-solid:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,229,199,.25);}
+  .btn-ghost{border:1px solid var(--line);color:var(--text);}
+  .btn-ghost:hover{transform:translateY(-3px);border-color:var(--teal);}
+
+  /* Orbit portrait */
+  .orbit-wrap{
+    position:relative;width:340px;height:340px;margin:0 auto;
+    opacity:0;animation:rise 1s ease forwards .3s;
+  }
+  .ring{
+    position:absolute;inset:0;border:1px solid var(--line);border-radius:50%;
+  }
+  .ring.r1{animation:spin 22s linear infinite;}
+  .ring.r2{inset:26px;animation:spin 30s linear infinite reverse;border-style:dashed;border-color:#2c3454;}
+  .node{
+    position:absolute;width:10px;height:10px;border-radius:50%;
+    background:var(--teal);box-shadow:0 0 14px var(--teal);
+  }
+  .n1{top:-5px;left:50%;transform:translateX(-50%);}
+  .n2{bottom:16px;right:10px;background:var(--violet);box-shadow:0 0 14px var(--violet);}
+  .n3{bottom:10px;left:10px;background:var(--amber);box-shadow:0 0 14px var(--amber);}
+  .portrait{
+    position:absolute;inset:48px;border-radius:50%;
+    background:linear-gradient(150deg,#151c33,#0c0f1a);
+    border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+    overflow:hidden;
+    box-shadow:inset 0 0 40px rgba(0,229,199,.08), 0 0 60px rgba(0,229,199,.08);
+  }
+  .portrait img{width:100%;height:100%;object-fit:cover;display:none;}
+  .monogram{
+    font-family:'JetBrains Mono',monospace;font-size:3.4rem;font-weight:500;
+    color:var(--teal);letter-spacing:2px;
+  }
+  .swap-note{
+    position:absolute;bottom:-34px;left:50%;transform:translateX(-50%);
+    font-family:'JetBrains Mono',monospace;font-size:.72rem;color:#4d5675;
+    white-space:nowrap;
+  }
+
+  @keyframes rise{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+  @keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+  @keyframes sheen{to{background-position:200% center;}}
+
+  section{padding:110px 0;position:relative;}
+  .tag{
+    font-family:'JetBrains Mono',monospace;color:var(--teal);font-size:.85rem;margin-bottom:12px;display:block;
+  }
+  h2{font-size:clamp(1.7rem,3.4vw,2.5rem);font-weight:700;margin-bottom:16px;letter-spacing:-.5px;}
+  .section-lede{color:var(--muted);max-width:620px;line-height:1.7;margin-bottom:56px;}
+
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease, transform .7s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+
+  /* About */
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;}
+  .about-grid p{color:var(--muted);line-height:1.85;margin-bottom:18px;}
+  .stat-list{display:flex;flex-direction:column;gap:26px;}
+  .stat{border-left:2px solid var(--line);padding-left:18px;}
+  .stat b{font-size:1.5rem;display:block;color:var(--text);}
+  .stat span{color:var(--muted);font-size:.88rem;}
+
+  /* Skills - two tracks, not numbered since not a sequence */
+  .tracks{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+  .track{
+    border:1px solid var(--line);border-radius:14px;padding:30px;
+    background:linear-gradient(180deg, rgba(255,255,255,.015), transparent);
+    transition:border-color .3s, transform .3s;
+  }
+  .track:hover{border-color:var(--teal);transform:translateY(-4px);}
+  .track h3{font-size:1.2rem;margin-bottom:6px;}
+  .track .role{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--muted);margin-bottom:20px;display:block;}
+  .chip-row{display:flex;flex-wrap:wrap;gap:8px;}
+  .chip{
+    font-family:'JetBrains Mono',monospace;font-size:.78rem;
+    border:1px solid var(--line);padding:6px 12px;border-radius:20px;color:var(--muted);
+  }
+  .track.dev .chip{color:#8fd8ff;}
+  .track.ai .chip{color:#c9b8ff;}
+
+  /* Projects */
+  .proj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  .proj{
+    border:1px solid var(--line);border-radius:14px;overflow:hidden;
+    background:var(--panel-solid);
+    transition:transform .35s, box-shadow .35s, border-color .35s;
+  }
+  .proj:hover{transform:translateY(-6px) scale(1.01);box-shadow:0 20px 40px rgba(0,0,0,.4);border-color:#37406a;}
+  .proj-top{height:140px;position:relative;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;color:#3b4568;font-size:.8rem;}
+  .proj:nth-child(1) .proj-top{background:radial-gradient(circle at 30% 30%, rgba(0,229,199,.18), transparent 70%);}
+  .proj:nth-child(2) .proj-top{background:radial-gradient(circle at 70% 40%, rgba(139,107,255,.2), transparent 70%);}
+  .proj:nth-child(3) .proj-top{background:radial-gradient(circle at 50% 60%, rgba(255,180,84,.16), transparent 70%);}
+  .proj-body{padding:22px;}
+  .proj-body h4{margin-bottom:8px;font-size:1.05rem;}
+  .proj-body p{color:var(--muted);font-size:.88rem;line-height:1.6;}
+
+  /* Contact */
+  .contact-card{
+    border:1px solid var(--line);border-radius:20px;padding:56px;
+    background:radial-gradient(circle at 20% 0%, rgba(0,229,199,.06), transparent 60%);
+    text-align:center;
+  }
+  .contact-card h2{margin-bottom:14px;}
+  .contact-card p{color:var(--muted);margin-bottom:36px;}
+  .contact-links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+  .clink{
+    display:flex;flex-direction:column;align-items:flex-start;gap:4px;
+    border:1px solid var(--line);border-radius:12px;padding:16px 22px;text-decoration:none;
+    min-width:190px;transition:border-color .3s, transform .3s;
+    text-align:left;
+  }
+  .clink:hover{transform:translateY(-4px);border-color:var(--teal);}
+  .clink .k{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--muted);}
+  .clink .v{color:var(--text);font-weight:600;}
+
+  footer{padding:34px 0;text-align:center;color:#4d5675;font-size:.82rem;border-top:1px solid var(--line);}
+
+  @media(max-width:860px){
+    .hero-grid{grid-template-columns:1fr;text-align:center;}
+    .lede{margin-left:auto;margin-right:auto;}
+    .cta-row{justify-content:center;}
+    .about-grid,.tracks{grid-template-columns:1fr;}
+    .proj-grid{grid-template-columns:1fr;}
+    nav ul{gap:18px;}
+    .contact-card{padding:34px 22px;}
+  }
+</style>
+</head>
+<body>
+
+<div id="glow"></div>
+
+<nav>
+  <div class="wrap">
+    <div class="logo">M<span>.</span>Eshaan</div>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header>
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">available for freelance & internships</span>
+      <h1>Muhammad Eshaan —<br>building <span class="grad">web experiences</span><br>powered by AI.</h1>
+      <p class="lede">I'm a Web Developer and AI student — I design and build clean, functional websites, and I'm learning to bring intelligent, AI-driven features into everything I create.</p>
+      <div class="cta-row">
+        <a href="#contact" class="btn btn-solid">Let's talk →</a>
+        <a href="#projects" class="btn btn-ghost">View work</a>
+      </div>
+    </div>
+    <div class="orbit-wrap">
+      <div class="ring r1"></div>
+      <div class="ring r2"></div>
+      <div class="node n1"></div>
+      <div class="node n2"></div>
+      <div class="node n3"></div>
+      <div class="portrait">
+        <img src="eshaan-photo.jpeg" alt="Muhammad Eshaan" style="display:block;">
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="about">
+  <div class="wrap">
+    <span class="tag">// about</span>
+    <h2 class="reveal">Two disciplines, one goal.</h2>
+    <div class="about-grid">
+      <div class="reveal">
+        <p>I'm currently studying Web Development and Artificial Intelligence, and I enjoy sitting at the intersection of the two — writing clean front-end code and exploring how AI can make products smarter and more useful.</p>
+        <p>Whether it's a personal portfolio, a business site, or a small AI-assisted tool, I focus on interfaces that feel fast, modern, and genuinely easy to use.</p>
+      </div>
+      <div class="stat-list reveal">
+        <div class="stat"><b>Web Dev</b><span>HTML, CSS, JavaScript & modern frameworks</span></div>
+        <div class="stat"><b>AI / ML</b><span>Currently learning applied AI fundamentals</span></div>
+        <div class="stat"><b>Focus</b><span>Clean UI, real functionality, no fluff</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <span class="tag">// skills</span>
+    <h2 class="reveal">What I work with.</h2>
+    <p class="section-lede reveal">Two active tracks right now — building on the web, and learning to build with AI.</p>
+    <div class="tracks">
+      <div class="track dev reveal">
+        <h3>Web Development</h3>
+        <span class="role">frontend & backend basics</span>
+        <div class="chip-row">
+          <span class="chip">HTML5</span><span class="chip">CSS3</span><span class="chip">JavaScript</span>
+          <span class="chip">React</span><span class="chip">Responsive Design</span><span class="chip">Git</span>
+        </div>
+      </div>
+      <div class="track ai reveal">
+        <h3>Artificial Intelligence</h3>
+        <span class="role">student track</span>
+        <div class="chip-row">
+          <span class="chip">Python</span><span class="chip">Machine Learning Basics</span><span class="chip">Prompt Engineering</span>
+          <span class="chip">Data Fundamentals</span><span class="chip">AI Tools</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <span class="tag">// projects</span>
+    <h2 class="reveal">Recent work.</h2>
+    <p class="section-lede reveal">New projects are on the way — this section will fill up soon.</p>
+    <div class="proj-grid">
+      <div class="proj reveal">
+        <div class="proj-top">building...</div>
+        <div class="proj-body"><h4>Coming Soon</h4><p>My first project is currently in progress. Check back shortly.</p></div>
+      </div>
+      <div class="proj reveal">
+        <div class="proj-top">building...</div>
+        <div class="proj-body"><h4>Coming Soon</h4><p>Working on it — details will be added here.</p></div>
+      </div>
+      <div class="proj reveal">
+        <div class="proj-top">building...</div>
+        <div class="proj-body"><h4>Coming Soon</h4><p>Stay tuned for updates on this one.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="contact-card reveal">
+      <h2>Let's build something.</h2>
+      <p>Reach out for freelance work, collabs, or just to say hi.</p>
+      <div class="contact-links">
+        <a class="clink" href="tel:+923715623878">
+          <span class="k">CALL / SMS</span><span class="v">0371 5623878</span>
+        </a>
+        <a class="clink" href="https://wa.me/923715623878" target="_blank">
+          <span class="k">WHATSAPP</span><span class="v">0371 5623878</span>
+        </a>
+        <a class="clink" href="https://instagram.com/eshaan.dev.ai" target="_blank">
+          <span class="k">INSTAGRAM</span><span class="v">@eshaan.dev.ai</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>© 2026 Muhammad Eshaan. Built with code & curiosity.</footer>
+
+<script>
+  // cursor glow follow
+  const glow = document.getElementById('glow');
+  window.addEventListener('mousemove', e=>{
+    glow.style.left = e.clientX + 'px';
+    glow.style.top = e.clientY + 'px';
+  });
+
+  // scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(en=>{
+      if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
+    });
+  }, {threshold:0.15});
+  revealEls.forEach(el=>io.observe(el));
+</script>
+
+</body>
+</html>
